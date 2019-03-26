@@ -10,7 +10,7 @@
 
 #### [TODO: 切片(Aspect) springAOP]()  
 
-##### 执行顺序：Filter -> Interceptor -> 切片 -> Controller
+##### 执行顺序：Filter -> Interceptor -> 切片【ControllerAdvice -> Aspect】 -> Controller
 
 
 
