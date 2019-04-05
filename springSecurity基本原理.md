@@ -91,6 +91,9 @@ Using default security password: fb39f959-fe9c-4d51-abb8-7303cfba4d30
 
 
 #### 查看源码  
+
+![类图](https://github.com/momokanni/SecurityGroup/blob/master/img/security-authentication-Diagram.png)  
+
 UsernamePasswordAuthenticationFilter  
 ```  
 public class UsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
