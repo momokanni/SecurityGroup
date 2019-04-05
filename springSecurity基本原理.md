@@ -32,7 +32,8 @@ Using default security password: fb39f959-fe9c-4d51-abb8-7303cfba4d30
 先举个例子： 我们可以提供一个自定义的表单登录  
 具体做法：  
     >1. 创建一个类 extends WebSecurityConfigurerAdapter(web安全应用配置的适配器)，可override configure(); 该方法共有三种形式：  
-        ```  
+    
+```    
             @Configuration
             public class WebConfig extends WebSecurityConfigurerAdapter {
                 
