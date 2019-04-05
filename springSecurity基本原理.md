@@ -81,5 +81,94 @@ Using default security password: fb39f959-fe9c-4d51-abb8-7303cfba4d30
 
 ![security过滤器链](https://github.com/momokanni/SecurityGroup/blob/master/img/2018429172853.png)  
 
+>1. Spring Security的本质就是一组Filter  
+>2. FilterSecutrityInterceptor 是整个Spring Security的最后一环,在这个“守门人”的身后，就是我们自己写的服务了  
+    因此在这个服务里面，它会去决定我们当前的请求能不能去访问后面的服务。那么它依据什么判断呢？  
+    就是依据我们代码里的配置。比如说我们先前的配置：所有的请求都要经过身份认证后才能访问，那么它就会去判断当前的请求是不是经过了前面某一个过滤器的身份认证。当然，前面的那个认证配置其实可以配置得很复杂的，比如说某些请求只有管理员才能访问，那么这些规则都会放在FilterSecutrityInterceptor过滤器里面，这个过滤器会根据这些规则去验证。  
+    验证不通过的话，它会根据不能访问的原因抛出不同的异常。  
+    
+>3. ExceptionTranslationFilter: 捕获FilterSecutrityInterceptor所抛出来的异常,然后这个过滤器会根据抛出来的异常做相应的处理  
+
+
+#### 查看源码  
+UsernamePasswordAuthenticationFilter  
+```  
+public class UsernamePasswordAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+        public UsernamePasswordAuthenticationFilter() {
+            super(new AntPathRequestMatcher("/login", "POST")); // 只会处理“/login”的POST请求
+        }
+
+        public Authentication attemptAuthentication(HttpServletRequest request,
+                HttpServletResponse response) throws AuthenticationException {
+            if (postOnly && !request.getMethod().equals("POST")) {
+                throw new AuthenticationServiceException(
+                        "Authentication method not supported: " + request.getMethod());
+            }
+
+            String username = obtainUsername(request);
+            String password = obtainPassword(request);
+
+            if (username == null) {
+                username = "";
+            }
+
+            if (password == null) {
+                password = "";
+            }
+
+            username = username.trim();
+
+            UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
+                    username, password);
+
+            // Allow subclasses to set the "details" property
+            setDetails(request, authRequest);
+
+            return this.getAuthenticationManager().authenticate(authRequest);
+        }  
+        ...
+ }
+```  
+
+FilterSecurityInterceptor  
+```  
+    public class FilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {  
+        
+        public void invoke(FilterInvocation fi) throws IOException, ServletException {
+            if ((fi.getRequest() != null)
+                    && (fi.getRequest().getAttribute(FILTER_APPLIED) != null)
+                    && observeOncePerRequest) {
+                // filter already applied to this request and user wants us to observe
+                // once-per-request handling, so don't re-do security checking
+                fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
+            }
+            else {
+                // first time this request being called, so perform security checking
+                if (fi.getRequest() != null && observeOncePerRequest) {
+                    fi.getRequest().setAttribute(FILTER_APPLIED, Boolean.TRUE);
+                }
+                // beforeInvocation方法里面的判断逻辑通过以后，执行下面的doFilter == 实际上就是在调后面真正的服务
+                // 所以会在调用之前会对绑定到Context(上下文)中的Filter进行认证，认证完成后授权
+                InterceptorStatusToken token = super.beforeInvocation(fi); 
+
+                try {
+                    fi.getChain().doFilter(fi.getRequest(), fi.getResponse());
+                }
+                finally {
+                    super.finallyInvocation(token);
+                }
+
+                super.afterInvocation(token, null);
+            }
+        }
+    }
+    ...
+```
+AbstractSecurityInterceptor  
+```  
+    protected InterceptorStatusToken beforeInvocation(Object object) {}
+```  
+
+建议debug一下整个流程
 
 
