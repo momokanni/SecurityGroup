@@ -28,3 +28,32 @@ Using default security password: fb39f959-fe9c-4d51-abb8-7303cfba4d30
 >1. Spring Security将我们所有的服务都保护起来了,任何一个Rest服务,要想调用都要先进行身份认证。  
 >2. 份认证的方式就是上图中的http basic的方式,这个是Spring Security默认的一个行为。  
 
+以上简单的使用，并不足以达到我们的要求，那么如何覆盖SpringSecurity默认行为呢？  
+先举个例子： 我们可以提供一个自定义的表单登录  
+具体做法：  
+    >1. 创建一个类 extends WebSecurityConfigurerAdapter(web安全应用配置的适配器)，可override configure(); 该方法共有三种形式：  
+        ```  
+            @Configuration
+            public class WebConfig extends WebSecurityConfigurerAdapter {
+                
+                // 接收AuthenticationManagerBuilder的方法：
+                protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+                    this.disableLocalConfigureAuthenticationBldr = true;
+                }
+                
+                // 接收WebSecurity的方法：
+                public void configure(WebSecurity web) throws Exception {
+                }  
+                
+                // 我们重点关注接收参数为HttpSecurity的configure方法，可以看到，它的默认配置正是：
+                // 这段默认代码则体现出：默认情况下Spring Security应用的所有请求都需要经过认证，并且认证方式为Http Basic。
+                protected void configure(HttpSecurity http) throws Exception {
+                    http
+                        .authorizeRequests()
+                            .anyRequest().authenticated()
+                            .and()
+                        .formLogin().and()
+                        .httpBasic();
+                }
+            }  
+```  
