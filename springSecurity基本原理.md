@@ -15,9 +15,9 @@
 2. demo  
 ```  
   @GetMapping(value = "/hello")
-	public String hello() {
-		return "hello world";
-	}  
+  public String hello() {
+     return "hello world";
+  }  
 ```  
 
 在不进行其他自定义配置的情况下，运行并访问该方法时，会弹出Http Basic默认认证框，SpringSecurity默认的固定用户名为：user，密码则在控制台打印输出：  
