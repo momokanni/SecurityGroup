@@ -75,5 +75,10 @@ Using default security password: fb39f959-fe9c-4d51-abb8-7303cfba4d30
     }  
 ```  
 安全其实就是两件事：一个是认证，一个是授权。  
+这时，重启系统，再次访问http://localhost:8080/hello 就会发现跳到了一个表单登录页  同样输入固定用户名：user 和 系统随机产生的pwd实现认证，认证成功后**重定向**到之前的请求，这个也是Spring Security默认的登录成功处理器的一个行为。  
+
+### 在了解了基本配置后，开始谈Security基本原理：  
+
+
 
 
