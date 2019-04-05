@@ -79,6 +79,7 @@ Using default security password: fb39f959-fe9c-4d51-abb8-7303cfba4d30
 
 ### 在了解了基本配置后，开始谈Security基本原理：  
 
+![security过滤器链](https://github.com/momokanni/SecurityGroup/blob/master/img/2018429172853.png)  
 
 
 
