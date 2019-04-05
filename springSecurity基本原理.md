@@ -58,3 +58,22 @@ Using default security password: fb39f959-fe9c-4d51-abb8-7303cfba4d30
                 }
             }  
 ```  
+现在我们需要覆盖掉HttpSecurity的方法，因为我们想要自定义一个form表单登录。  
+例如：  
+```  
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        //启用基于表单形式的登录
+        http.formLogin()
+            .and()
+            //下面的配置都是关于授权的配置
+            .authorizeRequests()
+            //任何请求
+            .anyRequest()
+            //都需要认证
+            .authenticated();
+    }  
+```  
+安全其实就是两件事：一个是认证，一个是授权。  
+
+
