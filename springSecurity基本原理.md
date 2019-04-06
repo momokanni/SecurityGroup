@@ -137,6 +137,12 @@ FilterSecurityInterceptor
 ```  
     public class FilterSecurityInterceptor extends AbstractSecurityInterceptor implements Filter {  
         
+        public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+            FilterInvocation fi = new FilterInvocation(request, response, chain);
+            invoke(fi);
+        }
+    
         public void invoke(FilterInvocation fi) throws IOException, ServletException {
             if ((fi.getRequest() != null)
                     && (fi.getRequest().getAttribute(FILTER_APPLIED) != null)
@@ -172,6 +178,7 @@ AbstractSecurityInterceptor
     protected InterceptorStatusToken beforeInvocation(Object object) {}
 ```  
 
-建议debug一下整个流程
+建议debug一下整个流程 TODO: 代码执行流程时序图  
+
 
 
