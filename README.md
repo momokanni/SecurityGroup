@@ -18,7 +18,9 @@
 
 ## 第二部分 SpringSecurity基本原理  
 
-#### [springSecurity基本原理]()  
+#### springSecurity默认的处理流程  
+
+![默认处理流程](https://github.com/momokanni/SecurityGroup/blob/master/img/process/%E9%BB%98%E8%AE%A4%E5%A4%84%E7%90%86%E6%B5%81%E7%A8%8B.png)  
 
 #### 认证流程(登录)
 ![认证流程](https://github.com/momokanni/SecurityGroup/blob/master/img/process/%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86(%E7%99%BB%E5%BD%95).svg)  
