@@ -20,6 +20,9 @@
 
 #### [springSecurity基本原理]()  
 
+#### 认证流程(登录)
+![认证流程](https://github.com/momokanni/SecurityGroup/blob/master/img/process/%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%A2%B3%E7%90%86(%E7%99%BB%E5%BD%95).svg)
+
 
 
 
