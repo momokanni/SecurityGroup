@@ -6,9 +6,8 @@
 
 ### 关注点  
 
-## SpringSecurity基本原理  
+## SpringSecurity简介  
 
-官方定义：
 ```
    Spring Security is a powerful and highly customizable authentication and access-control framework. It is the de-facto standard for securing Spring-based applications.  
 
